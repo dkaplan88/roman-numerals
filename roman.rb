@@ -10,18 +10,20 @@ class Fixnum
 
     self.to_s.reverse.chars.each_with_index do |num, index|
       num = num.to_i
+      base_index = 10 ** index # returns 1, 10, 100, 1000
 
       if num == 4 || num == 9
-        fours_nines = 10 ** index * num # returns 4, 9, 40, 90, 400, 900
-        to_roman = NUMBERAlS[fours_nines] + to_roman
+        four_nine_index = base_index * num # returns 4, 9, 40, 90, 400, 900
+        to_roman = NUMBERAlS[four_nine_index] + to_roman
       else
-        tens = 10 ** index # returns 1, 10, 100, 1000
-
         if num < 5
-          to_roman = NUMBERAlS[tens] * num + to_roman
+          base_index_total = NUMBERAlS[base_index] * num
+          to_roman  = base_index_total + to_roman
         else
-          fives = 10 ** index * 5 # returns 5, 50, 500
-          to_roman = NUMBERAlS[fives] + (NUMBERAlS[tens] * (num - 5)) + to_roman 
+          base_index_total = NUMBERAlS[base_index] * (num - 5)
+
+          five_index = NUMBERAlS[base_index * 5] # returns RNs for 5, 50, 500
+          to_roman = five_index + base_index_total + to_roman 
         end
       end
     end
